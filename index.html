@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.js"></script>
+	<script src="fuHW8.js"  type="text/javascript"></script>
+	<link rel="stylesheet" type="text/css" href="hw8.css">
+	</head>
+<body id="b" ng-app="myApp" ng-controller="myCtrl">
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1828571527409601',
+      xfbml      : true,
+      version    : 'v2.8'
+    });
+    FB.AppEvents.logPageView();
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+<nav class="navbar navbar-default" id="navv">
+	<div class="container-fluid">
+		 <div class="navbar-header">
+		 	<div class="navbar-brand" id="head">FB Search</div>
+		 </div>
+		<form class="navbar-form" ng-submit="myCtrl()" id="input">
+			<div class="row  center-block" id="searchi">
+				<div class="col-xs-8 col-md-5 col-md-offset-2">
+					<div class="input-group">
+						<input type="text" id="inputw" class="form-control" ng-model="key" placeholder="type something..." data-toggle="tooltip" title="Pleace type key word" data-placement="bottom">
+						<span class="input-group-btn">
+							<button id="bt1" type="submit" class="btn">
+								<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+							</button>
+						</span>				
+					</div>
+				</div>
+				<div class="col-xs-4 col-md-1 center-block"><button type="reset" class="btn" id="b2" ng-click="clear()">Clear</button></div>
+			</div>
+		</form>
+	</div>
+</nav>
+<div role="tabpanel">
+<div id="tabs">
+<ul class="nav nav-pills nav-justified" role="tablist">
+	<li role="presentation" class="active" ><a aria-controls="Users" role="pill" data-toggle="pill">Users</a></li>
+    <li role="presentation"><a aria-controls="Pages" role="pill" data-toggle="pill">Pages</a></li>
+    <li role="presentation"><a aria-controls="Events" role="pill" data-toggle="pill">Events</a></li>
+    <li role="presentation"><a aria-controls="Places" role="pill" data-toggle="pill">Places</a></li>
+    <li role="presentation"><a aria-controls="Groups" role="pill" data-toggle="pill">Groups</a></li>
+    <li role="presentation"><a aria-controls="Favorites" role="pill" data-toggle="pill">Favorites</a></li>
+</ul>
+</div>
+<div class="tab-content">
+	<div class="container-fluid">
+    <div role="tabpanel" class="tab-pane active" id="Users">
+    	<div class="container" id="con1">
+			<div class="progress" id="loadBar" style="display:none;">
+				<div id="pro1" class="progress-bar progress-bar-striped active " role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+				<span class="sr-only">45% Complete</span>
+				</div>
+			</div>
+		</div>
+		<div id="result" ng-show="backtor" role="tabpanel" class="tab-pane active slide animate-show-hide" style="display:none;">
+		<div class="table-responsive">
+    		<table class="table  table-hover" id = "whole_table">
+            <thead id = "table_head">
+            <tr>
+                <th>#</th>
+                <th>Profile photo</th>
+                <th>Name</th>
+                <th>Favorite</th>
+                <th>Details</th>                                                    
+            </tr>
+            </thead>
+            <tbody>
+            	<tr ng-repeat="u in user">
+            		<td>{{ $index + 1 }}</td>
+            		<td><img ng-src='{{ u.picture.data.url}}' class="img-circle" width="70" height="70"></td>
+            		<td>{{ u.name }}</td>
+            		<td>
+            			<button type="button" class="btn" ng-click="fav(u)"><span id="{{u.id}}" ng-if="refresh(u)" class="glyphicon glyphicon-star" style="color:yellow;"></span><span id="{{u.id}}" ng-if="!refresh(u)" class="glyphicon glyphicon-star-empty" ></span></button>
+            		</td>
+            		<td><button type="button" class="btn" ng-click="detail(u)"><span class="glyphicon glyphicon-chevron-right"></span></button></td>
+            	</tr>
+            </tbody>
+            </table>
+        </div>
+            <ul class="pager">
+				<li><a ng-click="paging(page.previous)" ng-if="page.previous!=null">Previous</a></li>
+				<li><a ng-click="paging(page.next)" ng-if="page.next!=null">Next</a></li>
+			</ul>
+        </div>
+
+			<div id="fav" ng-show="backtof" role="tabpanel" class="tab-pane active slide animate-show-hide" style="display:none;">
+			<div class="table-responsive">
+	    		<table class="table  table-hover" id = "whole_table">
+	            <thead id = "table_head">
+	            <tr>
+	                <th>#</th>
+	                <th>Profile photo</th>
+	                <th>Name</th>
+	                <th>Type</th>
+	                <th>Favorite</th>
+	                <th>Details</th>                                                    
+	            </tr>
+	            </thead>
+	            <tbody id = 'fbody'></tbody>
+	   			</table>
+	   			</div>
+	    	</div>
+	    	<div id="det" ng-show="detailslide" role="tabpanel" class="tab-pane active slide animate-show-hide" style="display:none;">
+	    		<div class="container" id="con2">
+		    		<div class="row" ng-model="fuser">
+			    		<div class="col-md-10 col-xs-7">
+			    			<button type="button" class="btn" ng-click="backP()"><span class="glyphicon glyphicon-chevron-left">Back</span></button>
+			    		</div>
+			    		<div class="col-md-2 col-xs-5">
+			    			<button type="button" class="btn" ng-click="fav(fuser)"><span id="{{fuser.id}}" ng-if="refresh(fuser)" class="glyphicon glyphicon-star" style="color:yellow;"></span><span id="{{fuser.id}}" ng-if="!refresh(fuser)" class="glyphicon glyphicon-star-empty" ></span></button><button type="button" class="btn pull-right" ng-click="postFB()"><img class="center-block" src="http://cs-server.usc.edu:45678/hw/hw8/images/facebook.png" width="20px"; height="20px";></button>
+			    		</div>
+		    		</div>
+		    		<div class="row" id="alpo">
+			    		<div class="col-md-6">
+				    		<div class="panel panel-default">
+		  						<div class="panel-heading">Albums</div>
+		  						<div class="panel-body" id="loadBarD1" style="display: none;">
+		  							<div class="progress">
+										<div id="pro2" class="progress-bar progress-bar-striped active " role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+										<span class="sr-only">45% Complete</span>
+										</div>
+									</div>
+		  						</div>
+								<div ng-if="albums!=null" class="panel-body" id="albumd" style="display">
+									<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+										<div class="panel panel-default" ng-repeat="a in albums">
+											<div class="panel-heading" role="tab" id="h{{$index}}">
+		      									<h4 class="panel-title">
+		        									<a role="button" data-toggle="collapse" data-parent="#accordion" href="#c{{$index}}" aria-controls="c{{$index}}">
+		          										{{a.name}}
+		        									</a>
+		      									</h4>
+		    								</div>
+		    								<div ng-if="$index==0" id="c{{$index}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="h{{$index}}">
+			    								<div class="panel-body">
+				    								<div ng-repeat="img in a.photos.data">
+				    									<div>
+				    										<img ng-src="fuHW8.php?picid={{img.id}}" width="100%">
+				    									</div>
+				    								</div>
+			    								</div>
+		    								</div>
+		    								<div ng-if="$index!=0" id="c{{$index}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="h{{$index}}">
+			    								<div class="panel-body">
+				    								<div ng-repeat="img in a.photos.data">
+				    									<div>
+				    										<img ng-src="fuHW8.php?picid={{img.id}}" width="100%">
+				    									</div>
+				    								</div>
+			    								</div>
+		    								</div>
+		    							</div>
+									</div>
+								</div>
+
+								<div ng-if="albums==null" class="panel-body" id="albumd" style="display">
+									<div class="alert alert-warning" role="alert">No data found.</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-6">
+							<div class="panel panel-default ">
+							  <div class="panel-heading">Posts</div>
+							  <div class="panel-body" id="loadBarD2" style="display: none;">
+		  							<div class="progress">
+										<div id="pro3" class="progress-bar progress-bar-striped active " role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+										<span class="sr-only">45% Complete</span>
+										</div>
+									</div>
+		  					  </div>
+							  <div ng-if="posts!=null" class="panel-body" ng-repeat="p in posts" id="postd" style="display">
+							    <div class="panel panel-default">
+								  <div class="panel-body">
+									<div class="row" ng-model="cup">
+										<div class="col-md-2 col-xs-3">
+											<img ng-src="{{cup.picture.data.url}}" width="40" height="40">
+										</div>
+										<div class="col-md-10 col-xs-9"><B>{{cup.name}}</B><br/><div style="color: grey;">{{p.created_time|date:"yyyy-MM-dd HH:mm:ss"}}</div></div>
+									</div>
+									<div ng-if="p.message!=null">{{p.message}}</div>
+									<div ng-if="p.message==null">{{p.story}}</div>
+								  </div>
+								  
+								</div>
+							  </div>
+							  <div ng-if="posts==null" class="panel-body" id="postd" style="display">
+							  	<div class="alert alert-warning" role="alert">No data found.</div>
+							  </div>
+							</div>
+						</div>
+					</div>
+	    		</div>
+	    	</div>
+    	</div>
+    </div>
+ </div>
+ </div>
+
+ </div>
+</body>
+</html>

@@ -1,0 +1,127 @@
+@media (max-width: 768px) {
+	.nav li a {
+		padding:0;
+	}
+}
+#input{
+	margin: 0;
+}
+#navv{
+	margin: 0;
+}
+#searchi{
+	top:10px;
+	position: relative;
+}
+@media (max-width: 768px) {
+	#searchi{
+	top:0px;
+	position: relative;
+	}
+}
+#bs-example-navbar-collapse-1{
+	padding: 0;
+	margin: 0;
+}
+#det.animate-show-hide.ng-hide{
+	transform: translateX(-100%);
+}
+.slide{
+	transform: translateX(0);
+}
+.animate-show-hide.ng-hide-add,.animate-show-hide.ng-hide-remove{
+	transition: all linear 0.3s;
+}
+
+#result.animate-show-hide.ng-hide,#fav.animate-show-hide.ng-hide{
+	transform: translateX(100%);
+}
+
+
+ul.nav.nav-pills > li.active a{
+	background-color: rgb(79,102,155); 
+	color: white;
+}
+ul.nav.nav-pills > li a{
+	color: black;
+}
+
+.btn{
+	background-color: white;
+	border-color: #dbdbdb;
+}
+
+.pager a{
+	border-radius: 6px !important;
+}
+
+.navbar-header{
+	padding: 0px;
+	text-align: center;
+}
+
+.navbar-nav{
+	padding: 0px;
+	float: none;
+	text-align: center;
+}
+.input-group{
+	width: 100%;
+}
+
+#searchi{
+	margin: 0 auto;
+}
+#nav, #bt1, #b2, .nav-pills a, input{
+	border-radius: 0 ! important
+}
+
+#head{
+	color:rgb(79,102,155);
+}
+
+#bt1{
+	background-color: rgb(79,102,155);
+	color: white;
+	width: 100%;;
+}
+
+#tabs{
+	border-bottom: 2px solid rgb(79,102,155);
+}
+
+#con1{
+	left: 10%; position: absolute; top: 50%
+}
+@media (max-width: 768px) {
+	#con1{
+	left: 10%; position: absolute; top: 65%;width:80%;
+	}
+}
+
+#loadBar{
+	width: 80%;
+}
+@media (max-width: 768px) {
+	#loadBar{
+		width: 80%;position: absolute;
+	}
+}
+#pro1,#pro2,#pro3{
+	width: 50%;
+}
+#whole_table{
+	font-size: 14px;
+}
+#table_head{
+	font-size: 14px;
+}
+#con2{
+	padding-top: 30px;
+}
+#loadBarD1,#loadBarD2{
+	width: 80%;
+}
+#result,#fav,#alpo {
+	padding-top: 3%;
+}
